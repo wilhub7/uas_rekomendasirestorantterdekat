@@ -32,7 +32,7 @@ class _RestoscreenState extends State<Restoscreen> {
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Favoritescreen()),
+        MaterialPageRoute(builder: (context) => const FavoriteScreen()),
       );
     } else if (index == 3) {
       Navigator.push(

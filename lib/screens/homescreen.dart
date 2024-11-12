@@ -32,7 +32,7 @@ class _HomescreenState extends State<Homescreen> {
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Favoritescreen()),
+        MaterialPageRoute(builder: (context) => const FavoriteScreen()),
       );
     } else if (index == 3) {
       Navigator.push(
@@ -100,7 +100,7 @@ class _HomescreenState extends State<Homescreen> {
           Container(
             child: Row(
               children: List.generate(
-                10,
+                3,
                 (index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: CircleAvatar(
