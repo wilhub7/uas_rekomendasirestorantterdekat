@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "987557098398",
+    "project_id": "tutorfirebase-4570d",
+    "storage_bucket": "tutorfirebase-4570d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987557098398:android:5c641101badf903b129c8f",
+        "android_client_info": {
+          "package_name": "com.example.uas_rekomendasirestorantterdekat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBilgFBCyxlHeTHERMQDPcAEwJryI1qAzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

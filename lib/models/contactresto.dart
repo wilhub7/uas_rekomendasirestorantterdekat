@@ -1,25 +1,12 @@
-class Contact {
+class Data {
   int id;
   String name;
-
   String phone;
-
-  Contact({
+  String image;
+  Data({
     required this.id,
     required this.name,
     required this.phone,
+    required this.image,
   });
-
-  Contact.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        phone = json['phone'];
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'phone': phone,
-    };
-  }
 }

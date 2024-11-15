@@ -39,7 +39,8 @@ class _RestoscreenState extends State<Restoscreen> {
         context,
         MaterialPageRoute(builder: (context) => const Deliveryscreen()),
       );
-      // } else if (index == 4) {
+      //   }
+      //  else if (index == 4) {
       //   Navigator.push(
       //     context,
       //     MaterialPageRoute(builder: (context) => const Loginscreen()),
@@ -52,7 +53,7 @@ class _RestoscreenState extends State<Restoscreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text('Home'),
+        title: const Text(''),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
         ],
@@ -149,6 +150,7 @@ class _RestoscreenState extends State<Restoscreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.amber,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

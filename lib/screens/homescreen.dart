@@ -1,3 +1,6 @@
+import 'package:provider/provider.dart';
+import 'package:uas_rekomendasirestorantterdekat/models/contactresto.dart';
+import 'package:uas_rekomendasirestorantterdekat/providers/data.dart';
 import 'package:uas_rekomendasirestorantterdekat/screens/deliveryscreen.dart';
 import 'package:uas_rekomendasirestorantterdekat/screens/favoritescreen.dart';
 import 'package:uas_rekomendasirestorantterdekat/screens/loginscreen.dart';
@@ -49,10 +52,11 @@ class _HomescreenState extends State<Homescreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProviderController = Provider.of<DataProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text('Home'),
+        title: const Text(''),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
         ],
@@ -68,24 +72,33 @@ class _HomescreenState extends State<Homescreen> {
             ),
           ),
           Expanded(
-            child: GridView(
+            child: GridView.builder(
               scrollDirection: Axis.horizontal,
-              physics: ScrollPhysics(),
+              physics: AlwaysScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
               ),
-              children: List.generate(
-                10,
-                (index) => Container(
+              itemCount: dataProviderController.datas.length,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Deliveryscreen(),
+                      settings: const RouteSettings(),
+                    ),
+                  );
+                },
+                child: Container(
                   color: Colors.deepPurple,
                   child: Center(
-                      child: Center(
-                          child: Image(
-                    image: AssetImage('assets/images/logo.png'),
-                    width: 100,
-                  ))),
+                    child: Center(
+                      child: Image.asset(
+                          dataProviderController.datas[index].image),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -115,6 +128,7 @@ class _HomescreenState extends State<Homescreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.amber,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
