@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class PostCard extends StatelessWidget {
@@ -9,6 +11,10 @@ class PostCard extends StatelessWidget {
     required this.title,
     required this.body,
   }) : super(key: key);
+  String angkarandom() {
+    var intValue = Random().nextInt(35) + 1;
+    return "https://foodish-api.com/images/rice/rice$intValue.jpg";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,7 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image.network(
-                  "https://picsum.photos/100/100",
+                  angkarandom(),
                   height: 100,
                   width: 100,
                   fit: BoxFit.cover,

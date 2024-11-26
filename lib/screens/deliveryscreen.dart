@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:nihfirebase/providers/data.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Deliveryscreen extends StatelessWidget {
   const Deliveryscreen({super.key});
@@ -23,12 +24,16 @@ class Deliveryscreen extends StatelessWidget {
                 leading: CircleAvatar(
                   child: Text(contact.name[0].toUpperCase()),
                 ),
-                // trailing: IconButton(
-                //   icon: const Icon(Icons.delete),
-                //   onPressed: () {
-                //     provider.removeContact(contact);
-                //   },
-                // ),
+                trailing: RatingBarIndicator(
+                  rating: contact.rating,
+                  itemBuilder: (context, index) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  itemCount: 5,
+                  itemSize: 25.0,
+                  direction: Axis.horizontal,
+                ),
               );
             },
           );

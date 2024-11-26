@@ -117,11 +117,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 child: Container(
-                  color: Colors.deepPurple,
                   child: Center(
                     child: Center(
                       child: Image.asset(
-                          dataProviderController.datas[index].image),
+                        dataProviderController.datas[index].image,
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
                     ),
                   ),
                 ),
@@ -161,10 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite), label: 'Favorite'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.delivery_dining),
-              label: 'Delivery/Contact Resto'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: 'Profile'),
+              icon: Icon(Icons.contact_phone), label: 'Contact Resto'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,

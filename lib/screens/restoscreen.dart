@@ -1,3 +1,5 @@
+// import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:nihfirebase/screens/deliveryscreen.dart';
 import 'package:nihfirebase/screens/favoritescreen.dart';
 import 'package:nihfirebase/screens/homescreen.dart';
@@ -13,7 +15,11 @@ class Restoscreen extends StatefulWidget {
 
 class _RestoscreenState extends State<Restoscreen> {
   int _selectedIndex = 0;
-
+  final controller = MapController.withUserPosition(
+      trackUserLocation: UserTrackingOption(
+    enableTracking: true,
+    unFollowUser: false,
+  ));
   void _onItemTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -46,6 +52,63 @@ class _RestoscreenState extends State<Restoscreen> {
       //     MaterialPageRoute(builder: (context) => const Loginscreen()),
       //   );
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    _drawRoads();
+    super.initState();
+  }
+
+  void _drawRoads() async {
+    final configs = [
+      MultiRoadConfiguration(
+        startPoint: GeoPoint(
+          latitude: 47.4834379430,
+          longitude: 8.4638911095,
+        ),
+        destinationPoint: GeoPoint(
+          latitude: 47.4046149269,
+          longitude: 8.5046595453,
+        ),
+      ),
+      MultiRoadConfiguration(
+          startPoint: GeoPoint(
+            latitude: 47.4814981476,
+            longitude: 8.5244329867,
+          ),
+          destinationPoint: GeoPoint(
+            latitude: 47.3982152237,
+            longitude: 8.4129691189,
+          ),
+          roadOptionConfiguration: MultiRoadOption(
+            roadColor: Colors.orange,
+          )),
+      MultiRoadConfiguration(
+        startPoint: GeoPoint(
+          latitude: 47.4519015578,
+          longitude: 8.4371175094,
+        ),
+        destinationPoint: GeoPoint(
+          latitude: 47.4321999727,
+          longitude: 8.5147623089,
+        ),
+      ),
+    ];
+    await controller.drawMultipleRoad(
+      configs,
+      commonRoadOption: MultiRoadOption(
+        roadColor: Colors.red,
+      ),
+    );
+  }
+
+  @override
+  void dispose() async {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -132,19 +195,38 @@ class _RestoscreenState extends State<Restoscreen> {
           ),
           const Divider(thickness: 1, color: Colors.grey),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.deepPurple.shade100,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.blue, width: 1.5),
-              ),
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Buka Peta"),
-                ),
-              ),
-            ),
+            child: OSMFlutter(
+                controller: controller,
+                osmOption: OSMOption(
+                  userTrackingOption: UserTrackingOption(
+                    enableTracking: true,
+                    unFollowUser: false,
+                  ),
+                  zoomOption: ZoomOption(
+                    initZoom: 8,
+                    minZoomLevel: 3,
+                    maxZoomLevel: 19,
+                    stepZoom: 1.0,
+                  ),
+                  userLocationMarker: UserLocationMaker(
+                    personMarker: MarkerIcon(
+                      icon: Icon(
+                        Icons.location_history_rounded,
+                        color: Colors.red,
+                        size: 48,
+                      ),
+                    ),
+                    directionArrowMarker: MarkerIcon(
+                      icon: Icon(
+                        Icons.double_arrow,
+                        size: 48,
+                      ),
+                    ),
+                  ),
+                  roadConfiguration: RoadOption(
+                    roadColor: Colors.yellowAccent,
+                  ),
+                )),
           ),
           const Center(
             child: Text("use 2 fingers to zoom the map",
