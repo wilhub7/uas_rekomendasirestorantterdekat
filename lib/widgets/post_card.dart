@@ -19,6 +19,7 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.cyanAccent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),

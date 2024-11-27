@@ -42,7 +42,7 @@ class DataProvider extends ChangeNotifier {
     Data(
         id: 7,
         name: 'mie gacoan',
-        phone: ' 0896-3934-5020',
+        phone: '0896-3934-5020',
         image: 'assets/mieg.jpg',
         rating: 3.5),
     Data(

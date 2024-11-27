@@ -18,8 +18,17 @@ class Deliveryscreen extends StatelessWidget {
               final contact = provider.datas[index];
               return ListTile(
                 title: Text(contact.name),
-                subtitle: Text(
-                  contact.phone,
+                subtitle: Row(
+                  children: [
+                    const Icon(
+                      Icons.phone_android_rounded,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      contact.phone,
+                    ),
+                  ],
                 ),
                 leading: CircleAvatar(
                   child: Text(contact.name[0].toUpperCase()),
@@ -31,7 +40,7 @@ class Deliveryscreen extends StatelessWidget {
                     color: Colors.amber,
                   ),
                   itemCount: 5,
-                  itemSize: 25.0,
+                  itemSize: 22,
                   direction: Axis.horizontal,
                 ),
               );

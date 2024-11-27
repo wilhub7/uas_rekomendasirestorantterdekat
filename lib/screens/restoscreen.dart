@@ -15,11 +15,7 @@ class Restoscreen extends StatefulWidget {
 
 class _RestoscreenState extends State<Restoscreen> {
   int _selectedIndex = 0;
-  final controller = MapController.withUserPosition(
-      trackUserLocation: UserTrackingOption(
-    enableTracking: true,
-    unFollowUser: false,
-  ));
+
   void _onItemTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -54,59 +50,108 @@ class _RestoscreenState extends State<Restoscreen> {
     }
   }
 
+  late MapController controller;
   @override
   void initState() {
     // TODO: implement initState
-
-    _drawRoads();
+    controller = MapController.withUserPosition(
+      trackUserLocation: UserTrackingOption(
+        enableTracking: true,
+        unFollowUser: false,
+      ),
+    );
+    // _drawRoads();
+    // _calculatedistance();
     super.initState();
   }
 
-  void _drawRoads() async {
-    final configs = [
-      MultiRoadConfiguration(
-        startPoint: GeoPoint(
-          latitude: 47.4834379430,
-          longitude: 8.4638911095,
-        ),
-        destinationPoint: GeoPoint(
-          latitude: 47.4046149269,
-          longitude: 8.5046595453,
-        ),
+  void _calculatedistance() async {
+    GeoPoint pengguna = GeoPoint(
+      latitude: -6.895497522199292,
+      longitude: 107.6132877538262,
+    );
+
+    List<GeoPoint> lokasiresto = [
+      //kmns
+      GeoPoint(
+        latitude: -6.895245214930886,
+        longitude: 107.61317775055322,
       ),
-      MultiRoadConfiguration(
-          startPoint: GeoPoint(
-            latitude: 47.4814981476,
-            longitude: 8.5244329867,
-          ),
-          destinationPoint: GeoPoint(
-            latitude: 47.3982152237,
-            longitude: 8.4129691189,
-          ),
-          roadOptionConfiguration: MultiRoadOption(
-            roadColor: Colors.orange,
-          )),
-      MultiRoadConfiguration(
-        startPoint: GeoPoint(
-          latitude: 47.4519015578,
-          longitude: 8.4371175094,
-        ),
-        destinationPoint: GeoPoint(
-          latitude: 47.4321999727,
-          longitude: 8.5147623089,
-        ),
+      //bosscha
+      GeoPoint(
+        latitude: -6.896023234477314,
+        longitude: 107.61327752983941,
+      ),
+      //beckys
+      GeoPoint(
+        latitude: -6.895242450979035,
+        longitude: 107.61383536395122,
+      ),
+      //rcandl
+      GeoPoint(
+        latitude: -6.8947298313150505,
+        longitude: 107.61278250976719,
+      ),
+      //grassroot
+      GeoPoint(
+        latitude: -6.896731422760362,
+        longitude: 107.6138006403037,
+      ),
+      //becrk
+      GeoPoint(
+        latitude: -6.896958657406274,
+        longitude: 107.61260176437965,
+      ),
+      //masar
+      GeoPoint(
+        latitude: -6.897406681128165,
+        longitude: 107.61219469407918,
+      ),
+      //mieg
+      GeoPoint(
+        latitude: -6.897920918356079,
+        longitude: 107.61351413184106,
+      ),
+      //aybkrphd
+      GeoPoint(
+        latitude: -6.898147070857063,
+        longitude: 107.6133201622886,
+      ),
+      //gyu
+      GeoPoint(
+        latitude: -6.899210676256314,
+        longitude: 107.61351979902678,
       ),
     ];
-    await controller.drawMultipleRoad(
-      configs,
-      commonRoadOption: MultiRoadOption(
-        roadColor: Colors.red,
+
+    for (var restaurant in lokasiresto) {
+      double distanceEnMetres = await distance2point(pengguna, restaurant);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Jarak ke restoran: $distanceEnMetres meter'),
+        ),
+      );
+    }
+  }
+
+  void _drawRoads() async {
+    RoadInfo roadInfo = await controller.drawRoad(
+      GeoPoint(latitude: -6.89541979289061, longitude: 107.61336138633497),
+      GeoPoint(latitude: -6.895168457181689, longitude: 107.6131284728665),
+      roadType: RoadType.car,
+      roadOption: RoadOption(
+        roadWidth: 10,
+        roadColor: Colors.blue,
+        zoomInto: true,
       ),
     );
+    print("${roadInfo.distance}km");
+    print("${roadInfo.duration}sec");
+    print("${roadInfo.instructions}");
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     controller.dispose();
     super.dispose();
   }
@@ -135,7 +180,7 @@ class _RestoscreenState extends State<Restoscreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.location_on, color: Colors.white),
+                  child: Icon(Icons.my_location, color: Colors.white),
                 ),
                 Expanded(
                   child: Text(
@@ -145,7 +190,7 @@ class _RestoscreenState extends State<Restoscreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.cloud, color: Colors.white),
+                  child: Icon(Icons.satellite_alt, color: Colors.white),
                 ),
               ],
             ),
@@ -163,8 +208,10 @@ class _RestoscreenState extends State<Restoscreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.filter_list, color: Colors.blue),
-                    onPressed: () {},
+                    icon: const Icon(Icons.explore, color: Colors.blue),
+                    onPressed: () {
+                      _calculatedistance();
+                    },
                   ),
                   Expanded(
                     child: TextField(
@@ -177,7 +224,9 @@ class _RestoscreenState extends State<Restoscreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.search, color: Colors.blue),
-                    onPressed: () {},
+                    onPressed: () {
+                      _drawRoads();
+                    },
                   ),
                 ],
               ),
@@ -203,7 +252,7 @@ class _RestoscreenState extends State<Restoscreen> {
                     unFollowUser: false,
                   ),
                   zoomOption: ZoomOption(
-                    initZoom: 8,
+                    initZoom: 19,
                     minZoomLevel: 3,
                     maxZoomLevel: 19,
                     stepZoom: 1.0,
@@ -211,7 +260,7 @@ class _RestoscreenState extends State<Restoscreen> {
                   userLocationMarker: UserLocationMaker(
                     personMarker: MarkerIcon(
                       icon: Icon(
-                        Icons.location_history_rounded,
+                        Icons.my_location,
                         color: Colors.red,
                         size: 48,
                       ),
@@ -229,7 +278,7 @@ class _RestoscreenState extends State<Restoscreen> {
                 )),
           ),
           const Center(
-            child: Text("use 2 fingers to zoom the map",
+            child: Text("use 2 fingers to zoom in / out the map",
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
@@ -246,9 +295,7 @@ class _RestoscreenState extends State<Restoscreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite), label: 'Favorite'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.delivery_dining), label: 'Delivery'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: 'Profile'),
+              icon: Icon(Icons.contact_phone), label: 'Contact Resto'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,

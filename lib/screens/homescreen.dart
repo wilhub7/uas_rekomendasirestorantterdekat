@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final dataProviderController = Provider.of<DataProvider>(context);
 
     return Scaffold(
+      backgroundColor: Colors.lightGreen,
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text('Welcome, ${user?.displayName ?? 'User'}!'),
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.lime,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
