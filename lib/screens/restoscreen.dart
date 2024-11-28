@@ -15,7 +15,7 @@ class Restoscreen extends StatefulWidget {
 
 class _RestoscreenState extends State<Restoscreen> {
   int _selectedIndex = 0;
-
+  int index = 0;
   void _onItemTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -123,21 +123,35 @@ class _RestoscreenState extends State<Restoscreen> {
         longitude: 107.61351979902678,
       ),
     ];
+    List<String> namaResto = [
+      "KisahManisDago",
+      "BosschaSpace",
+      "Beckys",
+      "RogersCafeAndLounge",
+      "Grassroot",
+      "BebekCarok",
+      "MadameSariRestaurant",
+      "MieGacoanDipatiukur",
+      "AyamBakarPedasHDeno",
+      "GyuKakuPangeranKornel",
+    ];
 
-    for (var restaurant in lokasiresto) {
-      double distanceEnMetres = await distance2point(pengguna, restaurant);
+    for (var resto in lokasiresto) {
+      String nama = namaResto[index];
+      double distanceEnMetres = await distance2point(pengguna, resto);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Jarak ke restoran: $distanceEnMetres meter'),
+          content: Text('jarak ke resto $nama $distanceEnMetres meter '),
         ),
       );
+      index++;
     }
   }
 
   void _drawRoads() async {
     RoadInfo roadInfo = await controller.drawRoad(
       GeoPoint(latitude: -6.89541979289061, longitude: 107.61336138633497),
-      GeoPoint(latitude: -6.895168457181689, longitude: 107.6131284728665),
+      GeoPoint(latitude: -6.897394838558933, longitude: 107.61215238519068),
       roadType: RoadType.car,
       roadOption: RoadOption(
         roadWidth: 10,
@@ -159,11 +173,12 @@ class _RestoscreenState extends State<Restoscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue,
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: const Text(''),
         actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.map), onPressed: null),
         ],
       ),
       body: Column(
@@ -208,7 +223,7 @@ class _RestoscreenState extends State<Restoscreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.explore, color: Colors.blue),
+                    icon: const Icon(Icons.multiple_stop, color: Colors.blue),
                     onPressed: () {
                       _calculatedistance();
                     },
@@ -223,7 +238,7 @@ class _RestoscreenState extends State<Restoscreen> {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.search, color: Colors.blue),
+                    icon: const Icon(Icons.route, color: Colors.blue),
                     onPressed: () {
                       _drawRoads();
                     },
@@ -239,10 +254,10 @@ class _RestoscreenState extends State<Restoscreen> {
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue),
+                  color: Colors.white),
             ),
           ),
-          const Divider(thickness: 1, color: Colors.grey),
+          const Divider(thickness: 1, color: Colors.white),
           Expanded(
             child: OSMFlutter(
                 controller: controller,
@@ -282,12 +297,12 @@ class _RestoscreenState extends State<Restoscreen> {
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey)),
+                    color: Colors.white)),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.lime,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -299,6 +314,7 @@ class _RestoscreenState extends State<Restoscreen> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
+        selectedLabelStyle: TextStyle(fontSize: 10),
       ),
     );
   }

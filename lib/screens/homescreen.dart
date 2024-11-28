@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:nihfirebase/providers/data.dart';
 import 'package:nihfirebase/screens/deliveryscreen.dart';
 import 'package:nihfirebase/screens/favoritescreen.dart';
@@ -51,6 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  String angkarandom() {
+    var intValu = Random().nextInt(35) + 1;
+    return "https://randomuser.me/api/portraits/men/$intValu.jpg";
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<ap.AuthProvider>(context).user;
@@ -62,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.green,
         title: Text('Welcome, ${user?.displayName ?? 'User'}!'),
         actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.check_circle), onPressed: null),
         ],
       ),
       drawer: Drawer(
@@ -139,21 +146,20 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Container(
-            child: Row(
-              children: List.generate(
-                3,
-                (index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage('https://example.com/userAvatarUrl'),
-                    radius: 30,
-                  ),
+          Expanded(
+            child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
                 ),
-              ),
-            ),
-          )
+                itemBuilder: (context, index) {
+                  return CircleAvatar(
+                    backgroundImage: NetworkImage(angkarandom()),
+                    radius: 30,
+                  );
+                }),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -169,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
+        selectedLabelStyle: TextStyle(fontSize: 10),
       ),
     );
   }

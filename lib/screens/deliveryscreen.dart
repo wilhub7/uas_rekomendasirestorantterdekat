@@ -9,6 +9,13 @@ class Deliveryscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text(''),
+        actions: [
+          IconButton(icon: const Icon(Icons.reviews), onPressed: null),
+        ],
+      ),
       // final dataProviderController = Provider.of<DataProvider>(context);
       body: Consumer<DataProvider>(
         builder: (context, provider, child) {
