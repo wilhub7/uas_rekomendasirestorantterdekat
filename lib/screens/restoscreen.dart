@@ -1,9 +1,7 @@
-// import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:nihfirebase/screens/deliveryscreen.dart';
 import 'package:nihfirebase/screens/favoritescreen.dart';
 import 'package:nihfirebase/screens/homescreen.dart';
-import 'package:nihfirebase/screens/loginscreen.dart';
 import 'package:flutter/material.dart';
 
 class Restoscreen extends StatefulWidget {
@@ -41,28 +39,20 @@ class _RestoscreenState extends State<Restoscreen> {
         context,
         MaterialPageRoute(builder: (context) => const Deliveryscreen()),
       );
-      //   }
-      //  else if (index == 4) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => const Loginscreen()),
-      //   );
     }
   }
 
   late MapController controller;
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
+
     controller = MapController.withUserPosition(
       trackUserLocation: UserTrackingOption(
         enableTracking: true,
         unFollowUser: false,
       ),
     );
-    // _drawRoads();
-    // _calculatedistance();
-    super.initState();
   }
 
   void _calculatedistance() async {
@@ -149,7 +139,7 @@ class _RestoscreenState extends State<Restoscreen> {
   }
 
   void _drawRoads() async {
-    RoadInfo roadInfo = await controller.drawRoad(
+    await controller.drawRoad(
       GeoPoint(latitude: -6.89541979289061, longitude: 107.61336138633497),
       GeoPoint(latitude: -6.897394838558933, longitude: 107.61215238519068),
       roadType: RoadType.car,
@@ -159,9 +149,6 @@ class _RestoscreenState extends State<Restoscreen> {
         zoomInto: true,
       ),
     );
-    print("${roadInfo.distance}km");
-    print("${roadInfo.duration}sec");
-    print("${roadInfo.instructions}");
   }
 
   @override
@@ -262,10 +249,6 @@ class _RestoscreenState extends State<Restoscreen> {
             child: OSMFlutter(
                 controller: controller,
                 osmOption: OSMOption(
-                  userTrackingOption: UserTrackingOption(
-                    enableTracking: true,
-                    unFollowUser: false,
-                  ),
                   zoomOption: ZoomOption(
                     initZoom: 19,
                     minZoomLevel: 3,

@@ -11,6 +11,9 @@ class FavoriteScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
         title: const Text('Favorite Menu'),
+        actions: [
+          IconButton(icon: const Icon(Icons.menu_book), onPressed: null),
+        ],
       ),
       body: const PostList(),
     );
