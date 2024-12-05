@@ -37,11 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         MaterialPageRoute(builder: (context) => const FavoriteScreen()),
       );
-    } else if (index == 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Deliveryscreen()),
-      );
     }
   }
 
@@ -104,10 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: dataProviderController.datas.length,
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
+                  // Get the selected contact
+                  final selectedContact = dataProviderController.datas[index];
+
+                  // Navigate to Deliveryscreen with the selected contact
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Deliveryscreen(),
+                      builder: (context) => Deliveryscreen(contact: selectedContact),
                       settings: const RouteSettings(),
                     ),
                   );
