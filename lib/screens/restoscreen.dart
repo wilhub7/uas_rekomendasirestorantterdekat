@@ -14,6 +14,7 @@ class Restoscreen extends StatefulWidget {
 class _RestoscreenState extends State<Restoscreen> {
   int _selectedIndex = 0;
   int index = 0;
+
   void _onItemTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -38,10 +39,10 @@ class _RestoscreenState extends State<Restoscreen> {
   }
 
   late MapController controller;
+
   @override
   void initState() {
     super.initState();
-
     controller = MapController.withUserPosition(
       trackUserLocation: UserTrackingOption(
         enableTracking: true,
@@ -57,56 +58,16 @@ class _RestoscreenState extends State<Restoscreen> {
     );
 
     List<GeoPoint> lokasiresto = [
-      //kmns
-      GeoPoint(
-        latitude: -6.895245214930886,
-        longitude: 107.61317775055322,
-      ),
-      //bosscha
-      GeoPoint(
-        latitude: -6.896023234477314,
-        longitude: 107.61327752983941,
-      ),
-      //beckys
-      GeoPoint(
-        latitude: -6.895242450979035,
-        longitude: 107.61383536395122,
-      ),
-      //rcandl
-      GeoPoint(
-        latitude: -6.8947298313150505,
-        longitude: 107.61278250976719,
-      ),
-      //grassroot
-      GeoPoint(
-        latitude: -6.896731422760362,
-        longitude: 107.6138006403037,
-      ),
-      //becrk
-      GeoPoint(
-        latitude: -6.896958657406274,
-        longitude: 107.61260176437965,
-      ),
-      //masar
-      GeoPoint(
-        latitude: -6.897406681128165,
-        longitude: 107.61219469407918,
-      ),
-      //mieg
-      GeoPoint(
-        latitude: -6.897920918356079,
-        longitude: 107.61351413184106,
-      ),
-      //aybkrphd
-      GeoPoint(
-        latitude: -6.898147070857063,
-        longitude: 107.6133201622886,
-      ),
-      //gyu
-      GeoPoint(
-        latitude: -6.899210676256314,
-        longitude: 107.61351979902678,
-      ),
+      GeoPoint(latitude: -6.895245214930886, longitude: 107.61317775055322),
+      GeoPoint(latitude: -6.896023234477314, longitude: 107.61327752983941),
+      GeoPoint(latitude: -6.895242450979035, longitude: 107.61383536395122),
+      GeoPoint(latitude: -6.8947298313150505, longitude: 107.61278250976719),
+      GeoPoint(latitude: -6.896731422760362, longitude: 107.6138006403037),
+      GeoPoint(latitude: -6.896958657406274, longitude: 107.61260176437965),
+      GeoPoint(latitude: -6.897406681128165, longitude: 107.61219469407918),
+      GeoPoint(latitude: -6.897920918356079, longitude: 107.61351413184106),
+      GeoPoint(latitude: -6.898147070857063, longitude: 107.6133201622886),
+      GeoPoint(latitude: -6.899210676256314, longitude: 107.61351979902678),
     ];
     List<String> namaResto = [
       "KisahManisDago",
@@ -126,7 +87,7 @@ class _RestoscreenState extends State<Restoscreen> {
       double distanceEnMetres = await distance2point(pengguna, resto);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('jarak ke resto $nama $distanceEnMetres meter '),
+          content: Text('Distance to $nama: $distanceEnMetres meters'),
         ),
       );
       index++;
@@ -140,7 +101,7 @@ class _RestoscreenState extends State<Restoscreen> {
       roadType: RoadType.car,
       roadOption: RoadOption(
         roadWidth: 10,
-        roadColor: Colors.blue,
+        roadColor: Colors.blueAccent,
         zoomInto: true,
       ),
     );
@@ -155,12 +116,20 @@ class _RestoscreenState extends State<Restoscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: const Text(''),
+        backgroundColor: Colors.teal,
+        title: const Text(
+          'Resto Locations',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         actions: [
-          IconButton(icon: const Icon(Icons.map), onPressed: null),
+          IconButton(
+            icon: const Icon(Icons.map, color: Colors.white),
+            onPressed: () {
+              // Placeholder for map action
+            },
+          ),
         ],
       ),
       body: Column(
@@ -169,31 +138,35 @@ class _RestoscreenState extends State<Restoscreen> {
             height: 50,
             decoration: BoxDecoration(
               color: Colors.deepOrange,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15)),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
+              ),
             ),
             child: Row(
-              children: [
+              children: const [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.my_location, color: Colors.white),
                 ),
                 Expanded(
                   child: Text(
-                    'your location',
-                    style: TextStyle(color: Colors.white),
+                    'Your Location',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.satellite_alt, color: Colors.white),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16.0),
             child: Container(
               height: 50,
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -206,24 +179,20 @@ class _RestoscreenState extends State<Restoscreen> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.multiple_stop, color: Colors.blue),
-                    onPressed: () {
-                      _calculatedistance();
-                    },
+                    onPressed: _calculatedistance,
                   ),
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
-                          hintText: '',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none),
-                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        hintText: 'Search here',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.route, color: Colors.blue),
-                    onPressed: () {
-                      _drawRoads();
-                    },
+                    onPressed: _drawRoads,
                   ),
                 ],
               ),
@@ -232,67 +201,58 @@ class _RestoscreenState extends State<Restoscreen> {
           const SizedBox(height: 15),
           const Center(
             child: Text(
-              "Resto near you",
+              "Nearby Restaurants",
               style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
           const Divider(thickness: 1, color: Colors.white),
           Expanded(
             child: OSMFlutter(
-                controller: controller,
-                osmOption: OSMOption(
-                  zoomOption: ZoomOption(
-                    initZoom: 19,
-                    minZoomLevel: 3,
-                    maxZoomLevel: 19,
-                    stepZoom: 1.0,
+              controller: controller,
+              osmOption: OSMOption(
+                zoomOption: ZoomOption(
+                  initZoom: 19,
+                  minZoomLevel: 3,
+                  maxZoomLevel: 19,
+                  stepZoom: 1.0,
+                ),
+                userLocationMarker: UserLocationMaker(
+                  personMarker: MarkerIcon(
+                    icon: Icon(Icons.person_pin_circle, color: Colors.red, size: 48),
                   ),
-                  userLocationMarker: UserLocationMaker(
-                    personMarker: MarkerIcon(
-                      icon: Icon(
-                        Icons.my_location,
-                        color: Colors.red,
-                        size: 48,
-                      ),
-                    ),
-                    directionArrowMarker: MarkerIcon(
-                      icon: Icon(
-                        Icons.double_arrow,
-                        size: 48,
-                      ),
-                    ),
+                  directionArrowMarker: MarkerIcon(
+                    icon: Icon(Icons.navigation, size: 48, color: Colors.blue),
                   ),
-                  roadConfiguration: RoadOption(
-                    roadColor: Colors.yellowAccent,
-                  ),
-                )),
+                ),
+                roadConfiguration: RoadOption(roadColor: Colors.yellow),
+              ),
+            ),
           ),
           const Center(
-            child: Text("use 2 fingers to zoom in / out the map",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white)),
+            child: Text(
+              "Use two fingers to zoom in/out",
+              style: TextStyle(fontSize: 14, color: Colors.white70),
+            ),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.lime,
+        backgroundColor: Colors.teal,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.near_me), label: 'Near Me'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: 'Favorite'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
           BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone), label: 'Contact Resto'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
-        selectedLabelStyle: TextStyle(fontSize: 10),
+        selectedLabelStyle: const TextStyle(fontSize: 10),
       ),
     );
   }
