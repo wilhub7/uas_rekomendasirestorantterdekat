@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     final RegExp regex =
-        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
     if (!regex.hasMatch(value)) {
       return 'Please enter a valid email.';
@@ -53,13 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
           height: MediaQuery.of(context).size.height,
           margin: const EdgeInsets.only(top: 64),
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.greenAccent, Colors.lightGreen],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
           child: Column(
             children: [
               const Text(
@@ -67,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 16),
@@ -75,20 +67,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 'Please log in to continue.',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: 'Email',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  prefixIcon: const Icon(Icons.email, color: Colors.white),
+                  labelStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Icon(Icons.email),
                   fillColor: Colors.redAccent,
                   filled: true,
                 ),
@@ -97,21 +85,18 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   labelText: 'Password',
-                  labelStyle: const TextStyle(color: Colors.white),
-                  prefixIcon: const Icon(Icons.lock, color: Colors.white),
+                  labelStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Icon(Icons.lock),
                   fillColor: Colors.redAccent,
                   filled: true,
                 ),
                 obscureText: true,
                 validator: passwordValidator,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -134,11 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   backgroundColor: MaterialStateProperty.all(Colors.lightBlue),
                   minimumSize: MaterialStateProperty.all(
                     const Size(double.infinity, 48),
-                  ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
                   ),
                 ),
                 child: const Text(
