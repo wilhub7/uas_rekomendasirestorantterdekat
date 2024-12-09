@@ -1,17 +1,16 @@
 import 'package:nihfirebase/providers/auth_provider.dart' as ap;
 import 'package:flutter/material.dart';
-import 'package:nihfirebase/screens/homescreen.dart';
-import 'package:nihfirebase/screens/registerscreen.dart';
+import 'package:nihfirebase/screens/loginscreen.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   final _emailController = TextEditingController();
@@ -59,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 const Text(
-                  'Welcome to nearest restaurant!',
+                  'Create account',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -67,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Please log in to continue.',
+                  'Please register to continue.',
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -104,14 +103,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        await context.read<ap.AuthProvider>().login(
+                        await context.read<ap.AuthProvider>().register(
                               email: _emailController.text,
                               password: _passwordController.text,
                             );
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
+                            builder: (context) => LoginScreen(),
                           ),
                         );
                       } catch (error) {
@@ -132,22 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: const Text(
-                    'Login',
+                    'Register',
                     style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Dont have an account? Register here.',
-                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ],

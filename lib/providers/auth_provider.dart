@@ -29,6 +29,27 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> register(
+      {required String email, required String password}) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      _user = credential.user;
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case 'INUSED_EMAIL':
+          throw 'Invalid email .';
+        default:
+          rethrow;
+      }
+    }
+
+    notifyListeners();
+  }
+
   Future<void> logout() async {
     _user = null;
 

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:nihfirebase/providers/data.dart';
 import 'package:nihfirebase/screens/deliveryscreen.dart';
 import 'package:nihfirebase/screens/favoritescreen.dart';
+import 'package:nihfirebase/screens/loginscreen.dart';
 import 'package:nihfirebase/screens/restoscreen.dart';
 import '../providers/auth_provider.dart' as ap;
 import 'package:flutter/material.dart';
@@ -77,6 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Logout'),
               onTap: () {
                 Provider.of<ap.AuthProvider>(context, listen: false).logout();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
               },
             ),
           ],
