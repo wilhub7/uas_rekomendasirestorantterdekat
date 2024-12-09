@@ -38,11 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         MaterialPageRoute(builder: (context) => const FavoriteScreen()),
       );
-    } else if (index == 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Deliveryscreen()),
-      );
     }
   }
 
@@ -57,25 +52,38 @@ class _HomeScreenState extends State<HomeScreen> {
     final dataProviderController = Provider.of<DataProvider>(context);
 
     return Scaffold(
-      backgroundColor: Colors.lightGreen,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text('Welcome, ${user?.displayName ?? 'User'}!'),
-        actions: [
-          IconButton(icon: const Icon(Icons.check_circle), onPressed: null),
-        ],
+        backgroundColor: Colors.teal,
+        title: Text(
+          'Welcome, ${user?.displayName ?? 'User'}!',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
       ),
       drawer: Drawer(
         child: ListView(
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Colors.blueAccent,
+                gradient: LinearGradient(
+                  colors: [Colors.teal, Colors.green],
+                ),
               ),
-              child: Text('${user?.email}'),
+              child: Text(
+                '${user?.email}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             ListTile(
-              title: const Text('Logout'),
+              leading: Icon(Icons.logout, color: Colors.teal),
+              title: const Text(
+                'Logout',
+                style: TextStyle(fontSize: 16),
+              ),
               onTap: () {
                 Provider.of<ap.AuthProvider>(context, listen: false).logout();
                 Navigator.push(
@@ -89,42 +97,61 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "new added resto",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: AlwaysScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            const Text(
+              "New Added Restos",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
               ),
-              itemCount: dataProviderController.datas.length,
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Deliveryscreen(),
-                      settings: const RouteSettings(),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                physics: const AlwaysScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                ),
+                itemCount: dataProviderController.datas.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    final selectedContact = dataProviderController.datas[index];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Deliveryscreen(contact: selectedContact),
+                        settings: const RouteSettings(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                          offset: Offset(2, 4),
+                        ),
+                      ],
                     ),
-                  );
-                },
-                child: Container(
-                  child: Center(
-                    child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
                         dataProviderController.datas[index].image,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
                       ),
@@ -133,16 +160,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-          ),
-          Text(
-            "famous people who joined my app",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 10),
+            const Text(
+              "Famous People Who Joined My App",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
             ),
-          ),
-          Expanded(
-            child: GridView.builder(
+            const SizedBox(height: 10),
+            Expanded(
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   mainAxisSpacing: 10,
@@ -151,26 +180,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   return CircleAvatar(
                     backgroundImage: NetworkImage(angkarandom()),
-                    radius: 30,
+                    radius: 35,
+                    backgroundColor: Colors.grey[300],
                   );
-                }),
-          ),
-        ],
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.lime,
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.near_me), label: 'Near Me'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: 'Favorite'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
           BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone), label: 'Contact Resto'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
-        selectedLabelStyle: TextStyle(fontSize: 10),
+        selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey,
+        selectedLabelStyle: const TextStyle(fontSize: 12),
+        unselectedLabelStyle: const TextStyle(fontSize: 10),
       ),
     );
   }
